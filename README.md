@@ -1,0 +1,1 @@
+This is a personal project for learning Unity based on a tutorial ( [Japanese](http://japan.unity3d.com/developer/document/tutorial/my-first-unity/) ). The license follows Unity-chan license ( [Japanese](http://unity-chan.com/download/license.html) ).
