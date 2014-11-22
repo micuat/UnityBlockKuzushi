@@ -33,7 +33,7 @@ public class SeatController : MonoBehaviour {
 			foreach(OSCPacket packet in item.Value.packets)
 			{
 				inputForce.x += -(float)packet.Data[1] * 0.02f;
-				inputForce.y += -(float)packet.Data[0] * 0.02f;
+				inputForce.y += (float)packet.Data[0] * 0.02f;
 			}
 		}
 
