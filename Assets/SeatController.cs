@@ -19,6 +19,7 @@ public class SeatController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector2 inputForce = new Vector2 (0.0f, 0.0f);
+        float maxForce = 0.0f;
 
 		inputForce.x += Input.GetAxisRaw ("Horizontal");
 		inputForce.y += Input.GetAxisRaw ("Vertical");
@@ -32,8 +33,9 @@ public class SeatController : MonoBehaviour {
 			// show the last received from the log in the Debug console
 			foreach(OSCPacket packet in item.Value.packets)
 			{
-				inputForce.x += -(float)packet.Data[1] * 0.02f;
-				inputForce.y += (float)packet.Data[0] * 0.02f;
+                Vector2 oscForce = new Vector2((float)packet.Data[1] * 0.02f, (float)packet.Data[0] * 0.02f);
+                inputForce += oscForce;
+                maxForce = Mathf.Max(maxForce, oscForce.magnitude);
 			}
 		}
 
@@ -41,6 +43,8 @@ public class SeatController : MonoBehaviour {
 		rigidbody.AddForce((transform.forward * inputForce.y) * Accel, ForceMode.Impulse);
 		Vector3 torque = new Vector3 (0.0f, inputForce.x, 0.0f);
 		rigidbody.AddTorque (torque * 10.0f);
+
+        OSCHandler.Instance.SendMessageToClient("SuperCollider", "/floor/vibrate", gameObject.rigidbody.velocity.magnitude);
 	}
 	
 	private float tolerance = 0.5f;
